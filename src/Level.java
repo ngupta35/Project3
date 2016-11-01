@@ -37,7 +37,6 @@ public class Level
 	 */
 	public Level(Random randGen, String level) 
 	{ 
-		// TODO: Implement this method.
 		this.speed = 12f;
 		this.controlType = 2;
 		this.graphic = new Graphic("HERO");
@@ -64,7 +63,7 @@ public class Level
 		// TODO: Implement this method.
 		
 		this.graphic.draw();
-		System.out.println( "Nick" );
+
 		
 		if ( this.controlType == 2 )
 		{
