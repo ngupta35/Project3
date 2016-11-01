@@ -1,4 +1,3 @@
-//grrrr
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -22,6 +21,10 @@ import java.util.Scanner;
  */
 public class Level
 {
+	private Graphic graphic;
+	private float   speed;
+	private int     controlType;
+	
 	/**
 	 * This constructor initializes a new Level object, so that the GameEngine
 	 * can begin calling its update() method to advance the game's play.  In
@@ -35,6 +38,12 @@ public class Level
 	public Level(Random randGen, String level) 
 	{ 
 		// TODO: Implement this method.
+		this.speed = 12f;
+		this.controlType = 2;
+		this.graphic = new Graphic("HERO");
+		this.graphic.setPosition( GameEngine.getWidth() / 2 , 
+				GameEngine.getHeight() / 2 );
+
 	}
 
 	/**
@@ -53,6 +62,56 @@ public class Level
 	public String update(int time) 
 	{
 		// TODO: Implement this method.
+		
+		this.graphic.draw();
+		System.out.println( "Nick" );
+		
+		if ( this.controlType == 2 )
+		{
+			graphic.setDirection( GameEngine.getMouseX(), 
+					GameEngine.getMouseY() );
+		}
+		if ( GameEngine.isKeyPressed( "W" )  )
+		{
+			if ( this.controlType == 1 )
+			{
+				graphic.setDirection( (float)( (3 * Math.PI) / 2 ) );
+			}
+			graphic.setPosition( graphic.getX(), 
+					graphic.getY() - ( this.speed * time ) );
+		}
+		else if ( GameEngine.isKeyPressed( "A" ) )
+		{
+			if ( this.controlType == 1 )
+			{
+				graphic.setDirection( (float)( Math.PI ) );
+			}
+			graphic.setPosition( graphic.getX() - ( this.speed * time ), 
+					graphic.getY() );
+		}
+		else if ( GameEngine.isKeyPressed( "S" ) )
+		{
+			if ( this.controlType == 1 )
+			{
+				graphic.setDirection( (float)( Math.PI / 2 ) );
+			}
+			graphic.setPosition( graphic.getX(), 
+					graphic.getY() + ( this.speed * time ) );
+		}
+		else if ( GameEngine.isKeyPressed( "D" ) )
+		{
+			if ( this.controlType == 1 )
+			{
+				graphic.setDirection( 0 );
+			}
+			graphic.setPosition( graphic.getX() + ( this.speed * time ), 
+					graphic.getY() );
+		}
+		else 
+		{
+			graphic.setPosition( graphic.getX(), graphic.getY() );
+		}
+		
 		return "CONTINUE"; 
 	}	
 
@@ -68,7 +127,8 @@ public class Level
 	public String getHUDMessage() 
 	{
 		// TODO: Implement this method.
-		return ""; 
+		String graphicDirection = ( "" + graphic.getDirection() );
+		return graphicDirection ; 
 	}
 
 	/**
