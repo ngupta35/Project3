@@ -38,7 +38,7 @@ public class Level
 	public Level(Random randGen, String level) 
 	{ 
 		this.speed = 12f;
-		this.controlType = 2;
+		this.controlType = 3;
 		this.graphic = new Graphic("HERO");
 		this.graphic.setPosition( GameEngine.getWidth() / 2 , 
 				GameEngine.getHeight() / 2 );
@@ -60,55 +60,66 @@ public class Level
 	 */
 	public String update(int time) 
 	{
-		// TODO: Implement this method.
-		
 		this.graphic.draw();
 
-		
-		if ( this.controlType == 2 )
+		if ( this.controlType == 2 || this.controlType == 3)
 		{
 			graphic.setDirection( GameEngine.getMouseX(), 
 					GameEngine.getMouseY() );
 		}
-		if ( GameEngine.isKeyPressed( "W" )  )
+		if ( controlType == 3)
 		{
-			if ( this.controlType == 1 )
+			if ( Math.sqrt( Math.pow( (graphic.getX() - GameEngine.getMouseX() )
+					, 2) + Math.pow( (graphic.getY() - GameEngine.getMouseY() )
+					, 2)) > 20 )
 			{
-				graphic.setDirection( (float)( (3 * Math.PI) / 2 ) );
+				graphic.setPosition( graphic.getX() + graphic.getDirectionX() *
+				(this.speed * time), graphic.getY() + graphic.getDirectionY() *
+				(this.speed * time) );
 			}
-			graphic.setPosition( graphic.getX(), 
-					graphic.getY() - ( this.speed * time ) );
 		}
-		else if ( GameEngine.isKeyPressed( "A" ) )
+		if ( this.controlType == 1 || this.controlType == 2)
 		{
-			if ( this.controlType == 1 )
+			if ( GameEngine.isKeyPressed( "W" )  )
 			{
-				graphic.setDirection( (float)( Math.PI ) );
+				if ( this.controlType == 1 )
+				{
+					graphic.setDirection( (float)( (3 * Math.PI) / 2 ) );
+				}
+				graphic.setPosition( graphic.getX(), 
+						graphic.getY() - ( this.speed * time ) );
 			}
-			graphic.setPosition( graphic.getX() - ( this.speed * time ), 
-					graphic.getY() );
-		}
-		else if ( GameEngine.isKeyPressed( "S" ) )
-		{
-			if ( this.controlType == 1 )
+			else if ( GameEngine.isKeyPressed( "A" ) )
 			{
-				graphic.setDirection( (float)( Math.PI / 2 ) );
+				if ( this.controlType == 1 )
+				{
+					graphic.setDirection( (float)( Math.PI ) );
+				}
+				graphic.setPosition( graphic.getX() - ( this.speed * time ), 
+						graphic.getY() );
 			}
-			graphic.setPosition( graphic.getX(), 
-					graphic.getY() + ( this.speed * time ) );
-		}
-		else if ( GameEngine.isKeyPressed( "D" ) )
-		{
-			if ( this.controlType == 1 )
+			else if ( GameEngine.isKeyPressed( "S" ) )
 			{
-				graphic.setDirection( 0 );
+				if ( this.controlType == 1 )
+				{
+					graphic.setDirection( (float)( Math.PI / 2 ) );
+				}
+				graphic.setPosition( graphic.getX(), 
+						graphic.getY() + ( this.speed * time ) );
 			}
-			graphic.setPosition( graphic.getX() + ( this.speed * time ), 
-					graphic.getY() );
-		}
-		else 
-		{
-			graphic.setPosition( graphic.getX(), graphic.getY() );
+			else if ( GameEngine.isKeyPressed( "D" ) )
+			{
+				if ( this.controlType == 1 )
+				{
+					graphic.setDirection( 0 );
+				}
+				graphic.setPosition( graphic.getX() + ( this.speed * time ), 
+						graphic.getY() );
+			}
+			else 
+			{
+				graphic.setPosition( graphic.getX(), graphic.getY() );
+			}
 		}
 		
 		return "CONTINUE"; 
